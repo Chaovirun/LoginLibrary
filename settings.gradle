@@ -1,0 +1,2 @@
+include ':app', ':loginlibrary'
+rootProject.name='Login'

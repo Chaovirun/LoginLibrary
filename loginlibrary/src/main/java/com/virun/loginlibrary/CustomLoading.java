@@ -4,11 +4,11 @@ package com.virun.loginlibrary;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.annotation.DrawableRes;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
-import androidx.annotation.DrawableRes;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.content.res.ResourcesCompat;
 
 public class CustomLoading extends AppCompatImageView {
 
@@ -18,10 +18,10 @@ public class CustomLoading extends AppCompatImageView {
     Handler handler = new Handler();
     Runnable runnable;
     @DrawableRes
-    int[] imgs={R.drawable.img_loading01,R.drawable.img_loading02,R.drawable.img_loading03,
-            R.drawable.img_loading04,R.drawable.img_loading05,R.drawable.img_loading06,
-            R.drawable.img_loading07,R.drawable.img_loading08,R.drawable.img_loading09,
-            R.drawable.img_loading10,R.drawable.img_loading11};
+    int[] imgs={R.drawable.img_loading01, R.drawable.img_loading02, R.drawable.img_loading03,
+            R.drawable.img_loading04, R.drawable.img_loading05, R.drawable.img_loading06,
+            R.drawable.img_loading07, R.drawable.img_loading08, R.drawable.img_loading09,
+            R.drawable.img_loading10, R.drawable.img_loading11};
 
     public CustomLoading(Context context) {
         super(context);

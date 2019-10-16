@@ -17,15 +17,17 @@
 package com.virun.loginlibrary;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.core.content.res.ResourcesCompat;
 
 /**
  * Custom view that is an extension of EditText.
@@ -36,8 +38,8 @@ import androidx.core.content.res.ResourcesCompat;
 public class EditTextWithClear
         extends AppCompatEditText {
 
-    Drawable mClearButtonImage;
-
+    Drawable mClearButton;
+    Drawable[] mClearButtonImage;
     public EditTextWithClear(Context context) {
         super(context);
         init();
@@ -54,12 +56,24 @@ public class EditTextWithClear
         init();
     }
 
+    private void scaleDrawble(){
+        Bitmap bitmap = ((BitmapDrawable) mClearButton).getBitmap();
+        // Scale it to 50 x 50
+        mClearButtonImage = new Drawable[]{new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, getDP(10), getDP(10), true))};
+    }
+    public int getDP(int size) {
+        size = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, size, getResources()
+                        .getDisplayMetrics());
+        return size;
+    }
+
     private void init() {
         // Initialize Drawable member variable.
-        mClearButtonImage =
+        mClearButton =
                 ResourcesCompat.getDrawable(getResources(),
-                        R.drawable.ic_clear_opaque_24dp, null);
-
+                        R.drawable.text_del_icon, null);
+        //scaleDrawble();
         // If the X (clear) button is tapped, clear the text.
         setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -73,7 +87,7 @@ public class EditTextWithClear
                     // Detect the touch in RTL or LTR layout direction.
                     if (getLayoutDirection() == LAYOUT_DIRECTION_RTL) {
                         // If RTL, get the end of the button on the left side.
-                        clearButtonEnd = mClearButtonImage
+                        clearButtonEnd = mClearButton
                                 .getIntrinsicWidth() + getPaddingStart();
                         // If the touch occurred before the end of the button,
                         // set isClearButtonClicked to true.
@@ -84,7 +98,7 @@ public class EditTextWithClear
                         // Layout is LTR.
                         // Get the start of the button on the right side.
                         clearButtonStart = (getWidth() - getPaddingEnd()
-                                - mClearButtonImage.getIntrinsicWidth());
+                                - mClearButton.getIntrinsicWidth());
                         // If the touch occurred after the start of the button,
                         // set isClearButtonClicked to true.
                         if (event.getX() > clearButtonStart) {
@@ -96,18 +110,14 @@ public class EditTextWithClear
                             // Check for ACTION_DOWN (always occurs before ACTION_UP).
                             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                                 // Switch to the black version of clear button.
-                                mClearButtonImage =
-                                        ResourcesCompat.getDrawable(getResources(),
-                                                R.drawable.ic_clear_opaque_24dp, null);
+
                                 showClearButton();
                             }
                             // Check for ACTION_UP.
                             if (event.getAction() == MotionEvent.ACTION_UP) {
                                 // Switch to the opaque version of clear button.
-                                mClearButtonImage =
-                                        ResourcesCompat.getDrawable(getResources(),
-                                                R.drawable.ic_clear_black_24dp, null);
-                                // Clear the text and hide the clear button.
+
+                                getText().clear();
                                 hideClearButton();
                                 return true;
                             }
@@ -130,7 +140,7 @@ public class EditTextWithClear
             @Override
             public void onTextChanged(CharSequence s,
                                       int start, int before, int count) {
-
+                showClearButton();
             }
 
             @Override
@@ -150,7 +160,7 @@ public class EditTextWithClear
         setCompoundDrawablesRelativeWithIntrinsicBounds
                 (null,                      // Start of text.
                         null,
-                        mClearButtonImage,  // End of text.
+                        mClearButton,  // End of text.
                         null);              // Below text.
     }
 

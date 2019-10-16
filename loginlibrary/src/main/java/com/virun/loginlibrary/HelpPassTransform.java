@@ -3,6 +3,8 @@ package com.virun.loginlibrary;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.GetChars;
 import android.text.NoCopySpan;
@@ -17,9 +19,6 @@ import android.view.View;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
-
-import androidx.annotation.IntDef;
-import androidx.annotation.NonNull;
 
 public class HelpPassTransform implements TransformationMethod, TextWatcher {
     public static final int DOT  = 0;
